@@ -1,0 +1,47 @@
+#########################my_movies.csv############################
+library(arules)
+
+mydata <- read.csv(file.choose())
+View(mydata)
+
+#rules <-  apriori(as.matrix(mydata[,6:15]),parameter=list(support=0.01,confidence=0.7))
+
+rules3 <-  apriori(as.matrix(mydata[,6:15]),parameter=list(support=0.02,confidence=0.7))
+#inspect(rules3)
+inspect(head(sort(rules3, by="lift")))
+
+#adjust minlen
+rules <-  apriori(as.matrix(mydata[,6:15]),parameter=list(support=0.01,confidence=0.7,minlen = 2))
+#writing ... [78 rule(s)]
+rules <-  apriori(as.matrix(mydata[,6:15]),parameter=list(support=0.01,confidence=0.7,minlen = 3))
+#writing ... [65 rule(s)] 
+rules <-  apriori(as.matrix(mydata[,6:15]),parameter=list(support=0.01,confidence=0.7,minlen = 4))
+#writing ... [29 rule(s)]
+rules <-  apriori(as.matrix(mydata[,6:15]),parameter=list(support=0.01,confidence=0.7,minlen = 5))
+#writing ... [5 rule(s)]
+#inspect(rules)
+inspect(head(sort(rules, by="lift")))
+
+#the change in number of rules for different support,confidence values
+rules <-  apriori(as.matrix(mydata[,6:15]),parameter=list(support=0.03,confidence=0.7))
+#writing ... [79 rule(s)]
+
+
+rules <-  apriori(as.matrix(mydata[,6:15]),parameter=list(support=0.01,confidence=0.8))
+#writing ... [77 rule(s)]
+
+rules <-  apriori(as.matrix(mydata[,6:15]),parameter=list(support=0.02,confidence=0.8))
+#writing ... [77 rule(s)]
+
+rules <-  apriori(as.matrix(mydata[,6:15]),parameter=list(support=0.03,confidence=0.8))
+#writing ... [77 rule(s)]
+
+library("arulesViz")
+
+plot(rules3)
+plot(rules3,method="grouped")
+plot(rules3[1:20],method = "graph") # plotting only few rules for good visualization
+
+write(rules3, file="rules3my_movies.csv",sep=",")
+
+getwd()
